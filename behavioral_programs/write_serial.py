@@ -36,7 +36,7 @@ def read_serial():
             running = 0
    
 # **parameters** -------------------------------------
-COMPORT = "COM11";
+COMPORT = "COM7";
 BAUDRATE = 115200;
 
 subject='test'

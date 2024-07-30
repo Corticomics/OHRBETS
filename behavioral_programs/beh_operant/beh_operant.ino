@@ -51,7 +51,7 @@ This program uses multiple dependencies (see protocol: for instructions on insta
   static boolean extTTL_posneg = 0;            // 0: pos reinforcement (resp->on), 1: neg reinforcement (resp->off)
 
  // spout vectors (each element will correspond to a spout, add or remove elements based on system, default is setup for 5 spouts)
-  static byte num_spouts = 5; // should have this many values for each of the following vectors
+  static byte num_spouts = 1; // should have this many values for each of the following vectors
   
   static byte pinSol[] =                      {  4,  5,  6,  7,  8};
   static byte sol_duration[] =                { 30, 30, 30, 30, 30}; // calibrate to ~1.5µL / delivery
@@ -189,7 +189,7 @@ This program uses multiple dependencies (see protocol: for instructions on insta
   unsigned long ts_sol_onset;
   unsigned long ts_sol_ttl_off;
   unsigned long ts_extTTL_offset;
-  unsigned long ts_lickomter_ttl_off; 
+  unsigned long ts_lickometer_ttl_off; 
   unsigned long ts_lick_gate_open = 0;
   unsigned long ts_rotation_active_ttl_off = 0;
   unsigned long ts_rotation_inactive_ttl_off = 0;
@@ -331,9 +331,9 @@ void loop() {
 
  // turn off ttls for external time stamps ------------------------
  // lick---
-  if(ts>=ts_lickomter_ttl_off && ts_lickomter_ttl_off!=0){
+  if(ts>=ts_lickometer_ttl_off && ts_lickometer_ttl_off!=0){
     digitalWrite(pinLickometer_ttl[current_spout - 1],LOW); // write ttl low
-    ts_lickomter_ttl_off = 0;            // reset off time to close if statement
+    ts_lickometer_ttl_off = 0;            // reset off time to close if statement
   }
   
  // solenoid---
@@ -358,7 +358,7 @@ void loop() {
   if(session_end_ts == 0){
     Serial.print(1);   Serial.print(" "); Serial.println(ts);                          delay(3);// print start session
     Serial.print(100); Serial.print(" "); Serial.println(session_duration);            delay(3);// print session duration
-    Serial.print(101); Serial.print(" "); Serial.println(rotary_resoltion);            delay(3);// print rotary_resoltion
+    Serial.print(101); Serial.print(" "); Serial.println(rotary_resolution);            delay(3);// print rotary_resoltion
     Serial.print(103); Serial.print(" "); Serial.println(session_brake);               delay(3);// print session_brake
     Serial.print(104); Serial.print(" "); Serial.println(session_retract);             delay(3);// print session_retract
     Serial.print(107); Serial.print(" "); Serial.println(session_reinforcer);          delay(3);// print session_reinforcer
@@ -544,7 +544,7 @@ void loop() {
    }
 
  // inactive rotation --------------------------------------------------------------------------
-   if(rotation_inactive_counter_trial >= rotary_resoltion){ // down sample rotation counter
+   if(rotation_inactive_counter_trial >= rotary_resolution){ // down sample rotation counter
     if(rotation_gate && session_reinforcer_availability == 0){
       rotation_inactive++;
   
